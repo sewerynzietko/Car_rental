@@ -87,7 +87,6 @@ public class VehicleRepositoryImpl implements IVehicleRepository {
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred: " + e);
         }
-        this.vehicles = vehicles;
     }
 
     public VehicleRepositoryImpl ( List<Vehicle> vehicles ) {
