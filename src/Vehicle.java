@@ -6,10 +6,6 @@ public abstract class Vehicle {
     protected float price;
     protected boolean rented;
 
-    String toCSV () {
-        return toCsv();
-    }
-
     public String getId () {
         return id;
     }
@@ -22,7 +18,18 @@ public abstract class Vehicle {
         this.rented = rent;
     }
 
-    public Vehicle ( String id, String brand, String model, int year, float price, boolean rented ) {}
+    public Vehicle(String id, String brand, String model, int year, float price, boolean rented) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.price = price;
+        this.rented = rented;
+    }
 
     public abstract String toCsv ();
+
+    public abstract String toString ();
+
+    public abstract Vehicle cloneVehicle();
 }

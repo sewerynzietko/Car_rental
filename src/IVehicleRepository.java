@@ -1,8 +1,8 @@
 import java.util.List;
 
 public interface IVehicleRepository {
-    void rentVehicle(int id);
-    Vehicle returnVehicle(int id);
+    void rentVehicle(String id);
+    void returnVehicle(String id);
     List<Vehicle> getVehicles();
     void save(String filepath);
     void load(String filepath);

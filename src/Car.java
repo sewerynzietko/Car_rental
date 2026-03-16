@@ -12,4 +12,22 @@ public class Car extends Vehicle{
         return "CAR" + ';' + super.id + ';' + brand + ';' + model + ';' + year
                 + ';' + price + ';' + rented;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id='" + id + '\'' +
+                ", rented=" + rented +
+                ", price=" + price +
+                ", year=" + year +
+                ", model='" + model + '\'' +
+                ", brand='" + brand + '\'' +
+                '}';
+    }
+
+    @Override
+    public Vehicle cloneVehicle() {
+        return new Car(this);
+    }
+
 }

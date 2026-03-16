@@ -7,15 +7,16 @@ public class VehicleRepositoryImpl implements IVehicleRepository {
     List<Vehicle> vehicles;
 
     @Override
-    public void rentVehicle ( int id ) {
+    public void rentVehicle ( String id ) {
         for( Vehicle vehicle : vehicles ){
             if(vehicle.getId().equals(id)){
                 if(!vehicle.isRented()){
-                    System.out.println("Rented vehicle.");
+                    System.out.println("Wyporzyczono pojazd.");
                     vehicle.setRented(true);
+                    save("src/vehicles.txt");
                 }
                 else {
-                    System.out.println("Can not rent vehicle, vehicle is already rented!");
+                    System.out.println("Nie można wyporzyczyć pojazdu, pojazd jest już wyporzyczony!");
                 }
                 break;
             }
@@ -23,41 +24,40 @@ public class VehicleRepositoryImpl implements IVehicleRepository {
     }
 
     @Override
-    public Vehicle returnVehicle ( int id ) {
+    public void returnVehicle ( String id ) {
         for( Vehicle vehicle : vehicles ){
             if(vehicle.getId().equals(id)) {
-                return vehicle;
+                if(vehicle.isRented()) {
+                    vehicle.setRented(false);
+                    save("src/vehicles.txt");
+                    return;
+                }
+                else{
+                    System.out.println("Pojazd nie był wyporzyczony.");
+                }
             }
         }
-        System.out.println("Vehicle not found.");
-        return null;
+        System.out.println("Nie znaleziono pojazdu.");
     }
 
     @Override
     public List<Vehicle> getVehicles ( ) {
         List<Vehicle> retVehicles = new ArrayList<>();
         for( Vehicle vehicle : vehicles){
-            Vehicle newVehicle;
-            if(vehicle.getClass().equals(Car.class)){
-                newVehicle = new Car((Car) vehicle);
-            }
-            else{
-                newVehicle = new Motorcycle((Motorcycle) vehicle);
-            }
-            retVehicles.add(newVehicle);
+            retVehicles.add(vehicle.cloneVehicle());
         }
         return retVehicles;
     }
 
     @Override
     public void save ( String filename ) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(filename))){
             for ( Vehicle vehicle : vehicles ){
-                str = str + vehicle.toCsv() + "\n";
+                str.append(vehicle.toCsv()).append("\n");
             }
-            writer.write(str);
-            System.out.println("Vehicles saved.");
+            writer.write(str.toString());
+            System.out.println("Pojazdy zapisane.");
         } catch (IOException e) {
             System.out.println("An error occurred: " + e);
         }
@@ -83,7 +83,7 @@ public class VehicleRepositoryImpl implements IVehicleRepository {
                     vehicles.add(motorcycle);
                 }
             }
-            System.out.println("Vehicles loaded.");
+            System.out.println("Pojazdy załadowane.");
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred: " + e);
         }
@@ -99,6 +99,6 @@ public class VehicleRepositoryImpl implements IVehicleRepository {
 
     public VehicleRepositoryImpl ( ) {
         vehicles = new ArrayList<>();
-        load("C:\\Users\\student\\IdeaProjects\\Car_rental\\src\\vehicles.txt");
+        load("src/vehicles.txt");
     }
 }

@@ -14,7 +14,25 @@ public class Motorcycle extends Vehicle{
 
     @Override
     public String toCsv(){
-        return "MOTOCYCLE" + ';' + super.id + ';' + brand + ';' + model + ';' + year
+        return "MOTORCYCLE" + ';' + super.id + ';' + brand + ';' + model + ';' + year
                 + ';' + price + ';' + rented + ';' + category;
+    }
+
+    @Override
+    public String toString() {
+        return "Motorcycle{" +
+                "id='" + id + '\'' +
+                ", rented=" + rented +
+                ", category='" + category + '\'' +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", price=" + price +
+                '}';
+    }
+
+    @Override
+    public Vehicle cloneVehicle() {
+        return new Motorcycle(this);
     }
 }
